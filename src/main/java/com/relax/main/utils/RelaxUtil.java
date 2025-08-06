@@ -3,7 +3,6 @@ package com.relax.main.utils;
 import com.relax.main.beans.Grid;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
@@ -16,7 +15,7 @@ public class RelaxUtil {
     @Value("${gridSize_Type1}")
     private Integer gridSize;
 
-    public void triggerSpin(){
+    public void triggerGame(){
         Grid grid = new Grid(gridSize,symbolProbabilityMap);
         grid.printGridData();
     }

@@ -15,20 +15,17 @@ public class GridUtil {
     public static List<List<String>> generateGrid (int gridSize,Map<String,Integer> symbolProbabilityMap){
 
         List<List<String>> grid = new ArrayList<>();
-
-        List<String> symbolList = new ArrayList<>();
-        List<Integer> probabilitySumList = new ArrayList<>();
         Map<Integer,String> probNumMap = new HashMap<>();
 
         int sum =0;
         for(Map.Entry<String,Integer> e : symbolProbabilityMap.entrySet()){
            int probability = e.getValue();
            for(int i=1;i<=probability;i++){
-               sum=sum+i;
+               sum++;
                probNumMap.put(sum,e.getKey());
            }
         }
-        LOG.info("Map contents: {}", probNumMap);
+        LOG.info("probNumMap contents: {}", probNumMap);
 
         for(int i=0;i<gridSize;i++){
             List<String> row = new ArrayList<>();

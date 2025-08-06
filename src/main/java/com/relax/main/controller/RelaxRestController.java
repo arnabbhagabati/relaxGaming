@@ -3,7 +3,6 @@ package com.relax.main.controller;
 import com.relax.main.MyProperties;
 import com.relax.main.utils.RelaxUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
@@ -27,6 +26,6 @@ public class RelaxRestController {
     //ToDo : Test parallel calls
     @GetMapping("/game")
     public void playGame(){
-        relaxUtil.triggerSpin();
+        relaxUtil.triggerGame();
     }
 }
