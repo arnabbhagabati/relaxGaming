@@ -2,6 +2,7 @@ package com.relax.main.beans;
 
 import com.relax.main.utils.GridUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -13,10 +14,8 @@ public class Grid {
     private List<List<String>> grid;
     private double payout;
 
-    public Grid(int gridSize, Map<String, Integer> symProbabMap) {
-        this.gridSize = gridSize;
-        this.symProbabMap = symProbabMap;
-        this.grid = GridUtil.generateGrid(gridSize,symProbabMap);
+    public Grid(List<List<String>> grid) {
+        this.grid = grid;
     }
 
     public double getPayout() {
@@ -35,13 +34,33 @@ public class Grid {
         this.grid = grid;
     }
 
+    /*
+     * prints the grid data. O(n) complexity where n= total elements in grid
+     * Not actually needed for the game engine
+     */
     public void printGridData(){
-        for(List<String> row : grid){
+        System.out.println();
+        List<Integer> colWidths = new ArrayList<>();
+        for(int j=0;j<grid.get(0).size();j++){
+            int width = 0;
+            for(int i=0;i<grid.size();i++){
+                width = Math.max(grid.get(i).get(j).length(),width);
+            }
+            colWidths.add(width);
+        }
+        for(int i=0;i<grid.size();i++){
             System.out.print("|");
-            for(String symbol : row){
-                System.out.print(" "+symbol+" |");
+            for(int j=0;j<grid.size();j++){
+                StringBuilder colVal = new StringBuilder().append(" ").append(grid.get(i).get(j)).append(" ");
+                int remWidth = colWidths.get(j)-grid.get(i).get(j).length();
+                for(int p=0;p<remWidth;p++){
+                    colVal.append(" ");
+                }
+                colVal.append("|");
+                System.out.print(colVal);
             }
             System.out.println();
         }
+        System.out.println();
     }
 }
