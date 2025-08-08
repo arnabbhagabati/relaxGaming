@@ -12,16 +12,7 @@ import java.util.Map;
 public class RelaxRestController {
 
     @Autowired
-    MyProperties properties;
-
-    @Autowired
     RelaxService relaxService;
-
-    @GetMapping("/users")
-    public Map<String, String> getEmployees(){
-        Map<String, String> users = properties.getUsers();
-        return users;
-    }
 
     //ToDo : Test parallel calls
     @GetMapping("/game")

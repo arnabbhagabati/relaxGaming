@@ -42,7 +42,18 @@ public class GridUtil {
             grid.add(row);
         }
 
-        return grid;
+        List<List<String>> table = new ArrayList<>();
+
+        table.add(Arrays.asList("H3", "H2", "H1", "H2", "H4", "H4", "L6", "L5"));
+        table.add(Arrays.asList("H2", "L7", "L8", "H3", "L7", "H1", "H1", "H2"));
+        table.add(Arrays.asList("H2", "H2", "H2", "H4", "L8", "H2", "H4", "H2"));
+        table.add(Arrays.asList("BL", "H4", "L5", "WR", "L5", "L5", "L6", "H2"));
+        table.add(Arrays.asList("WR", "L5", "H2", "L8", "L5", "H2", "L5", "H2"));
+        table.add(Arrays.asList("H2", "H2", "H2", "BL", "L5", "L5", "BL", "L5"));
+        table.add(Arrays.asList("L5", "L6", "H2", "H2", "L5", "L5", "L5", "L7"));
+        table.add(Arrays.asList("H2", "L5", "L5", "L8", "H2", "WR", "H2", "H2"));
+
+        return table;
     }
 
 
@@ -53,13 +64,14 @@ public class GridUtil {
         for(int i=0;i<grid.size();i++){
             for(int j=0;j< grid.get(i).size();j++){
                 if(traversed[i][j] == 0 && !grid.get(i).get(j).equals("WR")){
-                    Set<GridCell> cluster = dfs(grid,traversed,i,j);
+                    Set<GridCell> cluster = bfs(grid,traversed,i,j);
                     if(cluster != null){
-                        clusters.add(new Cluster(cluster,clusterId++));
+                        clusters.add(new Cluster(cluster,clusterId++,grid.get(i).get(j)));
                     }
                 }
             }
         }
+        calculatePayout(grid,clusters);
         updateGridWithClusters(grid,clusters);
 
         return clusters;
@@ -114,7 +126,7 @@ public class GridUtil {
 
 
 
-    private Set<GridCell> dfs(List<List<String>> grid, int[][] traversed, int i, int j) {
+    private Set<GridCell> bfs(List<List<String>> grid, int[][] traversed, int i, int j) {
         String sym = grid.get(i).get(j);
         Queue<GridCell> q = new LinkedList<>();
         q.add(new GridCell(i,j,sym));
@@ -149,17 +161,18 @@ public class GridUtil {
             }
         }
 
+
+        // Mark all wild card cells as not traversed, as WR are eligible for other clusters as well
+        for(GridCell gc : cluster){
+            if(gc.getData().equals("WR")) traversed[gc.getX()][gc.getY()] =0;
+        }
+
         // ToDo  : Move this hardcoded num 5 to properties
         if(cluster.size()>=5){
-            // Mark all wild cards as not traversed, as are eligible for other clusters as well
-            for(GridCell gc : cluster){
-                if(gc.getData().equals("WR")) traversed[gc.getX()][gc.getY()] =0;
-            }
             return cluster;
         }
 
         return null;
-
     }
 
     private boolean isValid(List<List<String>> grid, int x, int y){
@@ -181,6 +194,41 @@ public class GridUtil {
                 String sym = grid.get(x).get(y);
                 grid.get(x).set(y, sym + DEMARCATOR + cluster.getId());
             }
+        }
+    }
+
+    private void calculatePayout(List<List<String>> grid, List<Cluster> clusters) {
+
+        //ToDo Move this to properties file
+        Map<String, TreeMap<Integer, Integer>> payoutMap = new HashMap<>();
+
+        payoutMap.put("H1", new TreeMap<>(Map.of(5, 5, 9, 6, 13, 7, 17, 8, 21, 10)));
+        payoutMap.put("H2", new TreeMap<>(Map.of(5, 4, 9, 5, 13, 6, 17, 7, 21, 9)));
+        payoutMap.put("H3", new TreeMap<>(Map.of(5, 4, 9, 5, 13, 6, 17, 7, 21, 9)));
+        payoutMap.put("H4", new TreeMap<>(Map.of(5, 3, 9, 4, 13, 5, 17, 6, 21, 7)));
+
+        payoutMap.put("L5", new TreeMap<>(Map.of(5, 1, 9, 2, 13, 3, 17, 4, 21, 5)));
+        payoutMap.put("L6", new TreeMap<>(Map.of(5, 1, 9, 2, 13, 3, 17, 4, 21, 5)));
+        payoutMap.put("L7", new TreeMap<>(Map.of(5, 1, 9, 2, 13, 3, 17, 4, 21, 5)));
+        payoutMap.put("L8", new TreeMap<>(Map.of(5, 1, 9, 2, 13, 3, 17, 4, 21, 5)));
+
+        for(Cluster cluster : clusters){
+            String sym = cluster.getSymbol();
+            double payOut =0;
+            int count = 0;
+            for(GridCell gc : cluster.getCells()){
+                if(!gc.getData().equals("WR")){
+                    count++;
+                }
+            }
+            for(Map.Entry<Integer,Integer> entry : payoutMap.get(sym).entrySet()){
+                if(count>=entry.getKey()){
+                    payOut = entry.getValue();
+                }else{
+                    break;
+                }
+            }
+            cluster.setPayout(payOut);
         }
     }
 

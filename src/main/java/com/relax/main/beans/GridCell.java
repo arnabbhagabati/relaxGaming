@@ -47,4 +47,9 @@ public class GridCell {
     public int hashCode() {
         return Objects.hash(x, y, data);
     }
+
+    @Override
+    public String toString() {
+        return "(" + x + ", " + y + ")";
+    }
 }
