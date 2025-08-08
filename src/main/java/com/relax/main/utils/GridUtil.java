@@ -4,6 +4,7 @@ import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 import com.relax.main.beans.Cluster;
+import com.relax.main.beans.Grid;
 import com.relax.main.beans.GridCell;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,10 +54,10 @@ public class GridUtil {
         table.add(Arrays.asList("L5", "L6", "H2", "H2", "L5", "L5", "L5", "L7"));
         table.add(Arrays.asList("H2", "L5", "L5", "L8", "H2", "WR", "H2", "H2"));
 
-        return table;
+        return grid;
     }
 
-
+    //ToDo : Accept object of Grid instead of List<List>
     public List<Cluster> findClusters(List<List<String>> grid){
         int[][] traversed = new int[grid.size()][grid.size()];
         List<Cluster> clusters = new ArrayList<>();
@@ -93,6 +94,59 @@ public class GridUtil {
                         grid.get(i+fallCount).set(j,sym);
                         grid.get(i).set(j,"");
                     }
+                }
+            }
+        }
+    }
+
+    public Grid generateRefillGrid(List<List<String>> grid, Map<String,Integer> symbolProbabilityMap) {
+        Map<String,Integer> symbolMap = new HashMap<>();
+        symbolMap.putAll(symbolProbabilityMap);
+        symbolMap.remove("BL");  // Since BLOCKER is not used for refill post avalanche
+        Map<Integer,String> probNumMap = new HashMap<>();
+
+        // Create a pre-initialzed grid.
+        // ToDo - maybe there is a better way to do this?
+        List<List<String>> refill = new ArrayList<>();
+        for(int i=0;i<grid.size();i++){
+            List<String> list = new ArrayList<>();
+            for(int j=0;j<grid.get(0).size();j++){
+                list.add("");
+            }
+            refill.add(list);
+        }
+
+        int sum =0;
+        for(Map.Entry<String,Integer> e : symbolMap.entrySet()){
+            int probability = e.getValue();
+            for(int i=1;i<=probability;i++){
+                sum++;
+                probNumMap.put(sum,e.getKey());
+            }
+        }
+
+        for(int j=0;j<grid.get(0).size();j++){
+            for(int i=0;i<grid.size();i++){
+                if(grid.get(i).get(j).isEmpty()){
+                    int randomNumber = ThreadLocalRandom.current().nextInt(1, sum+1);
+                    String symbol = probNumMap.get(randomNumber);
+                    refill.get(i).set(j,symbol);
+                }else{
+                    break;
+                }
+            }
+        }
+
+        Grid refillGridObj = new Grid(refill);
+        return refillGridObj;
+    }
+
+    public void fillGrid(Grid grid,Grid refillGrid) {
+        List<List<String>> orgGrid = grid.getGrid();
+        for(int i=0;i<orgGrid.size();i++){
+            for(int j=0;j<orgGrid.get(0).size();j++){
+                if(orgGrid.get(i).get(j).isEmpty()){
+                    orgGrid.get(i).set(j,refillGrid.getGrid().get(i).get(j));
                 }
             }
         }

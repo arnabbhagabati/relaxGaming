@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,12 +28,21 @@ public class RelaxService {
     public void triggerGame(){
         Grid grid = new Grid(gridUtil.generateGrid(gridSize,symbolProbabilityMap));
         grid.printGridData();
-        List<Cluster> clusters = gridUtil.findClusters(grid.getGrid());
-        grid.printGridData();
-        for(Cluster cluster :clusters){
-            LOG.info("{}", cluster);
+
+        while(true) {
+            List<Cluster> clusters = gridUtil.findClusters(grid.getGrid());
+            grid.printGridData();
+            for (Cluster cluster : clusters) {
+                LOG.info("{}", cluster);
+            }
+            if(clusters.isEmpty()){
+                break;
+            }
+            gridUtil.triggerAvalanche(grid.getGrid(), clusters);
+            grid.printGridData();
+            Grid refillGrid = gridUtil.generateRefillGrid(grid.getGrid(),symbolProbabilityMap);
+            refillGrid.printGridData();
+            gridUtil.fillGrid(grid,refillGrid);
         }
-        gridUtil.triggerAvalanche(grid.getGrid(),clusters);
-        grid.printGridData();
     }
 }
