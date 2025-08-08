@@ -3,6 +3,7 @@ package com.relax.main.utils;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
+import com.relax.main.beans.Cluster;
 import com.relax.main.beans.GridCell;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,9 +12,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class GridUtil {
 
-    //ToDo : Remove hardcoded strings like "WR"
+    //ToDo : Remove hardcoded strings like "WR", "BL"
 
     private static final Logger LOG = LoggerFactory.getLogger(GridUtil.class);
+    private static final String DEMARCATOR ="-";
 
     public List<List<String>> generateGrid (int gridSize,Map<String,Integer> symbolProbabilityMap){
 
@@ -44,25 +46,70 @@ public class GridUtil {
     }
 
 
-    public void findClusters(List<List<String>> grid){
+    public List<Cluster> findClusters(List<List<String>> grid){
         int[][] traversed = new int[grid.size()][grid.size()];
-        List<Set<GridCell>> clusters = new ArrayList<>();
-
+        List<Cluster> clusters = new ArrayList<>();
+        int clusterId = 0;
         for(int i=0;i<grid.size();i++){
             for(int j=0;j< grid.get(i).size();j++){
                 if(traversed[i][j] == 0 && !grid.get(i).get(j).equals("WR")){
                     Set<GridCell> cluster = dfs(grid,traversed,i,j);
                     if(cluster != null){
-                        clusters.add(cluster);
-                        // Mark all wild cards as not traversed, as are eligible for other clusters as well
-                        for(GridCell gc : cluster){
-                           if(gc.getData().equals("WR")) traversed[gc.getX()][gc.getY()] =0;
-                        }
+                        clusters.add(new Cluster(cluster,clusterId++));
                     }
                 }
             }
         }
-        updateGrid(clusters,grid);
+        updateGridWithClusters(grid,clusters);
+
+        return clusters;
+    }
+
+
+    public void triggerAvalanche(List<List<String>> grid,List<Cluster> clusters){
+        markBlockersForDestruction(grid,clusters);
+        for(int j=0;j<grid.get(0).size();j++){
+            int fallCount = 0;
+            for(int i=grid.size()-1;i>=0;i--){
+                String sym = grid.get(i).get(j);
+                if(sym.contains(DEMARCATOR)){
+                    fallCount++;
+                    grid.get(i).set(j,"");  // Destroy the cell
+                }else{
+                    if(fallCount>0){
+                        //Move the cell down
+                        grid.get(i+fallCount).set(j,sym);
+                        grid.get(i).set(j,"");
+                    }
+                }
+            }
+        }
+    }
+
+
+    private void markBlockersForDestruction(List<List<String>> grid,List<Cluster> clusters){
+        for(Cluster cluster : clusters) {
+            for (GridCell gc : cluster.getCells()) {
+                int x = gc.getX();
+                int y=  gc.getY();
+
+                if(isValid(grid,x+1,y) && grid.get(x+1).get(y).equals("BL")){
+                    grid.get(x+1).set(y, "BL" + DEMARCATOR  + cluster.getId());
+                }
+
+                if(isValid(grid,x-1,y) && grid.get(x-1).get(y).equals("BL")){
+                    grid.get(x-1).set(y, "BL" + DEMARCATOR  + cluster.getId());
+                }
+
+                if(isValid(grid,x,y+1) && grid.get(x).get(y+1).equals("BL")){
+                    grid.get(x).set(y+1, "BL" + DEMARCATOR  + cluster.getId());
+                }
+
+                if(isValid(grid,x,y-1) && grid.get(x).get(y-1).equals("BL")){
+                    grid.get(x).set(y-1, "BL" + DEMARCATOR  + cluster.getId());
+                }
+            }
+        }
     }
 
 
@@ -102,8 +149,12 @@ public class GridUtil {
             }
         }
 
-        // ToDo  : Move this hardcoded num to properties
+        // ToDo  : Move this hardcoded num 5 to properties
         if(cluster.size()>=5){
+            // Mark all wild cards as not traversed, as are eligible for other clusters as well
+            for(GridCell gc : cluster){
+                if(gc.getData().equals("WR")) traversed[gc.getX()][gc.getY()] =0;
+            }
             return cluster;
         }
 
@@ -121,13 +172,14 @@ public class GridUtil {
         return false;
     }
 
-    private void updateGrid(List<Set<GridCell>> clusters, List<List<String>> grid) {
-        int clusterCount =0;
-        for(Set<GridCell> cluster : clusters) {
-            clusterCount++;
-            for (GridCell gi : cluster) {
-                String sym = grid.get(gi.getX()).get(gi.getY());
-                grid.get(gi.getX()).set(gi.getY(), sym + "-" + clusterCount);
+    private void updateGridWithClusters(List<List<String>> grid,List<Cluster> clusters) {
+
+        for(Cluster cluster : clusters) {
+            for (GridCell gc : cluster.getCells()) {
+                int x = gc.getX();
+                int y=  gc.getY();
+                String sym = grid.get(x).get(y);
+                grid.get(x).set(y, sym + DEMARCATOR + cluster.getId());
             }
         }
     }

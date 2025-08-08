@@ -1,6 +1,8 @@
 package com.relax.main.beans;
 
 import com.relax.main.utils.GridUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,8 +11,12 @@ import java.util.Map;
 
 public class Grid {
 
+    private static final Logger LOG = LoggerFactory.getLogger(Grid.class);
+
     private int gridSize;
     private Map<String,Integer> symProbabMap;
+
+    //Todo : Convert this to List of GridCell
     private List<List<String>> grid;
     private double payout;
 
@@ -37,6 +43,7 @@ public class Grid {
     /*
      * prints the grid data. O(n) complexity where n= total elements in grid
      * Not actually needed for the game engine
+     * Todo : Use logging to print instead of syso
      */
     public void printGridData(){
         System.out.println();

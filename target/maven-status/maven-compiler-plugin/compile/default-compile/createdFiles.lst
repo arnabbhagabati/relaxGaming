@@ -1,4 +1,5 @@
 com\relax\main\Application.class
+com\relax\main\beans\Cluster.class
 com\relax\main\beans\Grid.class
 com\relax\main\beans\GridCell.class
 com\relax\main\MyProperties.class

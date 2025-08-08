@@ -1,5 +1,6 @@
 package com.relax.main.utils;
 
+import com.relax.main.beans.Cluster;
 import com.relax.main.beans.Grid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,7 +25,9 @@ public class RelaxService {
     public void triggerGame(){
         Grid grid = new Grid(gridUtil.generateGrid(gridSize,symbolProbabilityMap));
         grid.printGridData();
-        gridUtil.findClusters(grid.getGrid());
+        List<Cluster> clusters = gridUtil.findClusters(grid.getGrid());
+        grid.printGridData();
+        gridUtil.triggerAvalanche(grid.getGrid(),clusters);
         grid.printGridData();
     }
 }

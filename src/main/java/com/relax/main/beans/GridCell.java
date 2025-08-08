@@ -39,8 +39,7 @@ public class GridCell {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        GridCell gridCell = (GridCell) o;
+        if (!(o instanceof GridCell gridCell)) return false;
         return x == gridCell.x && y == gridCell.y && Objects.equals(data, gridCell.data);
     }
 
