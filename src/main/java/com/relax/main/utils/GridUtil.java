@@ -276,7 +276,6 @@ public class GridUtil {
                 }
             }
 
-            LOG.info("Processing symbol {}, count {} ",sym,count);
             for(Map.Entry<Integer,Integer> entry : payoutMap.get(sym).entrySet()){
                 if(count>=entry.getKey()){
                     payOut = entry.getValue();

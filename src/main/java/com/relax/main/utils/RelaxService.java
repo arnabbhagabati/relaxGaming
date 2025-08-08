@@ -40,18 +40,12 @@ public class RelaxService {
             Cycle cycle = new Cycle();
 
             List<Cluster> clusters = gridUtil.findClusters(grid.getGrid());
-            grid.printGridData();
+            if(clusters.isEmpty()) break;
             cycle.setGridWithClusters(grid.getGrid());
-
-
-            for (Cluster cluster : clusters) {
-                LOG.info("{}", cluster);
-            }
             cycle.setClusters(clusters);
+            grid.printGridData();
+            for (Cluster cluster : clusters) System.out.println(cluster.toString());
 
-            if(clusters.isEmpty()){
-                break;
-            }
 
             gridUtil.triggerAvalanche(grid.getGrid(), clusters);
             cycle.setGridWPostAvalanche(grid.getGrid());
@@ -63,6 +57,7 @@ public class RelaxService {
 
             gridUtil.fillGrid(grid,refillGrid);
             cycle.setGridPostRefill(grid.getGrid());
+            grid.printGridData();
 
             gameCycles.add(cycle);
         }

@@ -4,12 +4,11 @@ import com.relax.main.beans.Game;
 import com.relax.main.utils.RelaxService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-public class RelaxRestController {
+public class RelaxController {
 
     @Autowired
     RelaxService relaxService;
