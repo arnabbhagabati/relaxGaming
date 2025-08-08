@@ -1,6 +1,7 @@
 package com.relax.main.beans;
 
-import com.relax.main.utils.GridUtil;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonPrimitive;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,23 +14,12 @@ public class Grid {
 
     private static final Logger LOG = LoggerFactory.getLogger(Grid.class);
 
-    private int gridSize;
-    private Map<String,Integer> symProbabMap;
-
     //Todo : Convert this to List of GridCell
     private List<List<String>> grid;
-    private double payout;
+
 
     public Grid(List<List<String>> grid) {
         this.grid = grid;
-    }
-
-    public double getPayout() {
-        return payout;
-    }
-
-    public void setPayout(double payout) {
-        this.payout = payout;
     }
 
     public List<List<String>> getGrid() {
@@ -69,5 +59,19 @@ public class Grid {
             System.out.println();
         }
         System.out.println();
+    }
+
+    public JsonArray getGridAsJson(){
+        JsonArray jsonArray = new JsonArray();
+
+        for (List<String> row : grid) {
+            JsonArray rowArray = new JsonArray();
+            for (String cell : row) {
+                rowArray.add(new JsonPrimitive(cell));
+            }
+            jsonArray.add(rowArray);
+        }
+
+        return jsonArray;
     }
 }

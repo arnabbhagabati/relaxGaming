@@ -1,5 +1,7 @@
 package com.relax.main.beans;
 
+import com.google.gson.JsonObject;
+
 import java.util.Objects;
 import java.util.Set;
 
@@ -68,4 +70,5 @@ public class Cluster {
                 ", cells=" + cells +
                 '}';
     }
+
 }

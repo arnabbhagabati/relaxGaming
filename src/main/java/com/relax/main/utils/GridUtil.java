@@ -64,7 +64,7 @@ public class GridUtil {
         int clusterId = 0;
         for(int i=0;i<grid.size();i++){
             for(int j=0;j< grid.get(i).size();j++){
-                if(traversed[i][j] == 0 && !grid.get(i).get(j).equals("WR")){
+                if(traversed[i][j] == 0 && !grid.get(i).get(j).equals("WR") && !grid.get(i).get(j).equals("BL")){
                     Set<GridCell> cluster = bfs(grid,traversed,i,j);
                     if(cluster != null){
                         clusters.add(new Cluster(cluster,clusterId++,grid.get(i).get(j)));
@@ -72,7 +72,7 @@ public class GridUtil {
                 }
             }
         }
-        calculatePayout(grid,clusters);
+        calculatePayout(clusters);
         updateGridWithClusters(grid,clusters);
 
         return clusters;
@@ -251,7 +251,7 @@ public class GridUtil {
         }
     }
 
-    private void calculatePayout(List<List<String>> grid, List<Cluster> clusters) {
+    private void calculatePayout(List<Cluster> clusters) {
 
         //ToDo Move this to properties file
         Map<String, TreeMap<Integer, Integer>> payoutMap = new HashMap<>();
@@ -275,6 +275,8 @@ public class GridUtil {
                     count++;
                 }
             }
+
+            LOG.info("Processing symbol {}, count {} ",sym,count);
             for(Map.Entry<Integer,Integer> entry : payoutMap.get(sym).entrySet()){
                 if(count>=entry.getKey()){
                     payOut = entry.getValue();
