@@ -1,22 +1,16 @@
 package com.relax.main.beans;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonPrimitive;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
 
 public class Grid {
 
     private static final Logger LOG = LoggerFactory.getLogger(Grid.class);
 
-    //Todo : Convert this to List of GridCell
     private List<List<String>> grid;
-
 
     public Grid(List<List<String>> grid) {
         this.grid = grid;
@@ -31,7 +25,7 @@ public class Grid {
     }
 
     /*
-     * prints the grid data. O(n) complexity where n= total elements in grid
+     * prints the grid data on std out. O(n) complexity where n= total elements in grid
      * Not actually needed for the game engine
      * Todo : Use logging to print instead of syso
      */
@@ -59,19 +53,5 @@ public class Grid {
             System.out.println();
         }
         System.out.println();
-    }
-
-    public JsonArray getGridAsJson(){
-        JsonArray jsonArray = new JsonArray();
-
-        for (List<String> row : grid) {
-            JsonArray rowArray = new JsonArray();
-            for (String cell : row) {
-                rowArray.add(new JsonPrimitive(cell));
-            }
-            jsonArray.add(rowArray);
-        }
-
-        return jsonArray;
     }
 }

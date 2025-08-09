@@ -11,6 +11,7 @@ public class Cycle {
     private List<List<String>> gridWPostAvalanche;
     private List<List<String>> refillGrid;
     private List<List<String>> gridPostRefill;
+    private double payout = 0.0;
 
     public List<List<String>> getGridWithClusters() {
         return gridWithClusters;
@@ -26,6 +27,9 @@ public class Cycle {
 
     public void setClusters(List<Cluster> clusters) {
         this.clusters = clusters;
+        for(Cluster cluster :clusters){
+            payout = payout+cluster.getPayout();
+        }
     }
 
     public List<List<String>> getGridWPostAvalanche() {
@@ -58,5 +62,13 @@ public class Cycle {
             copiedGrid.add(row.stream().collect(Collectors.toList()));
         }
         return copiedGrid;
+    }
+
+    public double getPayout() {
+        return payout;
+    }
+
+    public void setPayout(double payout) {
+        this.payout = payout;
     }
 }
