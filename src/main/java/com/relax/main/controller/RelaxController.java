@@ -14,6 +14,7 @@ import java.io.IOException;
 
 
 @RestController
+@RequestMapping("/relax")
 public class RelaxController {
 
     @Autowired
@@ -24,11 +25,11 @@ public class RelaxController {
 
     //ToDo : Test parallel calls
     @RequestMapping(value = "/spinGame", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity playGame(){
+    public ResponseEntity playGame(@RequestParam("betAmount") int betAmount){
         Game game = null;
         String userId = authService.authorizedPlayer();
         try {
-            game = gameEngineService.triggerGame(userId);
+            game = gameEngineService.triggerGame(userId,betAmount);
         } catch (Exception e) {
             return new ResponseEntity("Your game encountered an error. Please contact support or try a new spin",HttpStatus.INTERNAL_SERVER_ERROR);
         }

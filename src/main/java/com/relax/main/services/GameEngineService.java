@@ -35,9 +35,9 @@ public class GameEngineService {
 
     private static final Logger LOG = LoggerFactory.getLogger(GameEngineService.class);
 
-    public Game triggerGame(String playerId) throws IOException {
+    public Game triggerGame(String playerId, int betAmount) throws IOException {
         String gameId = GameUtil.generateGameId();
-        Game game = new Game(gameId,playerId);
+        Game game = new Game(gameId,playerId,betAmount);
         game.setStatus(GameStatus.IN_PROGRESS);
 
         Grid grid = new Grid(gridUtil.generateGrid(gridSize,symbolProbabilityMap));

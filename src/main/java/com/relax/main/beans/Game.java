@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 public class Game {
 
+    private int betAmount;
     private String gameId;
     private String playerId;
     private List<List<String>> initialGrid;
@@ -13,9 +14,10 @@ public class Game {
     private double payout;
     private GameStatus status;
 
-    public Game(String gameId, String playerId) {
+    public Game(String gameId, String playerId, int betAmount) {
         this.gameId = gameId;
         this.playerId = playerId;
+        this.betAmount = betAmount;
     }
 
     public Game(String gameId, String playerId, String winAmount, GameStatus status) {
@@ -58,9 +60,10 @@ public class Game {
 
     public void setGameCycles(List<Cycle> gameCycles) {
         this.gameCycles = gameCycles;
-        for(Cycle cycle :gameCycles){
-            this.payout = this.payout+cycle.getPayout();
-        }
+        double payoutonTen = 0.00;
+        for(Cycle cycle :gameCycles) payoutonTen = payoutonTen+cycle.getPayout();
+        double betTenMultiple = (double) betAmount/10.00;
+        this.payout = betTenMultiple*payoutonTen;
     }
 
     public double getPayout() {
@@ -77,5 +80,13 @@ public class Game {
 
     public void setStatus(GameStatus status) {
         this.status = status;
+    }
+
+    public int getBetAmount() {
+        return betAmount;
+    }
+
+    public void setBetAmount(int betAmount) {
+        this.betAmount = betAmount;
     }
 }
