@@ -1,5 +1,7 @@
 package com.relax.main.beans;
 
+import com.relax.main.utils.GameUtil;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -48,6 +50,10 @@ public class Game {
     }
 
     public void setInitialGrid(List<List<String>> grid) {
+        /*
+         * Keep a copy of the original grid
+         * Actual grid will be modified as game progresses
+         */
         this.initialGrid = new ArrayList<>();
         for(List<String> row : grid){
             initialGrid.add(row.stream().collect(Collectors.toList()));
@@ -62,8 +68,7 @@ public class Game {
         this.gameCycles = gameCycles;
         double payoutonTen = 0.00;
         for(Cycle cycle :gameCycles) payoutonTen = payoutonTen+cycle.getPayout();
-        double betTenMultiple = (double) betAmount/10.00;
-        this.payout = betTenMultiple*payoutonTen;
+        this.payout = GameUtil.calculateAcrualPayout(betAmount,payoutonTen);
     }
 
     public double getPayout() {

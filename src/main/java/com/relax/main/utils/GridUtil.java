@@ -19,7 +19,7 @@ public class GridUtil {
     private static final String DEMARCATOR ="-";
 
     public List<List<String>> generateGrid (int gridSize,Map<String,Integer> symbolProbabilityMap){
-
+        LOG.info("generating grisd start");
         List<List<String>> grid = new ArrayList<>();
         Map<Integer,String> probNumMap = new HashMap<>();
 
@@ -54,6 +54,7 @@ public class GridUtil {
         table.add(Arrays.asList("L5", "L6", "H2", "H2", "L5", "L5", "L5", "L7"));
         table.add(Arrays.asList("H2", "L5", "L5", "L8", "H2", "WR", "H2", "H2"));
 
+        LOG.info("generating grid end");
         return grid;
     }
 

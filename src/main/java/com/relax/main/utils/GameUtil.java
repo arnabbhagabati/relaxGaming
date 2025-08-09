@@ -1,4 +1,6 @@
 package com.relax.main.utils;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.UUID;
 
 
@@ -10,5 +12,15 @@ public class GameUtil {
      */
     public static String generateGameId(){
         return UUID.randomUUID().toString();
+    }
+
+    public static double calculateAcrualPayout(int betAmount,double payoutOn10){
+        double betTenMultiple = (double) betAmount/10.00;
+        double payout = betTenMultiple*payoutOn10;
+        double roundedPayout = new BigDecimal(payout)
+                .setScale(2, RoundingMode.HALF_UP)
+                .doubleValue();
+
+        return roundedPayout;
     }
 }

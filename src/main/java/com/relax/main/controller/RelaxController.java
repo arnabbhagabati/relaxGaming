@@ -10,8 +10,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
-
 
 @RestController
 @RequestMapping("/relax")
@@ -37,11 +35,11 @@ public class RelaxController {
     }
 
     @RequestMapping(value = "/gambleChoice/{gameId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity triggerGamble(@PathVariable String gameId){
+    public ResponseEntity doubleOrNothing(@PathVariable String gameId){
         Double payout = 0.0;
         String userId = authService.authorizedPlayer();
         try {
-            payout = gameEngineService.triggerGamble(gameId,userId);
+            payout = gameEngineService.doubleOrNothing(gameId,userId);
         } catch (GambleOnCompletedGameException e) {
             return new ResponseEntity("You attemted to gamble on a completed game. This is not possible",HttpStatus.INTERNAL_SERVER_ERROR);
         } catch (Exception e) {

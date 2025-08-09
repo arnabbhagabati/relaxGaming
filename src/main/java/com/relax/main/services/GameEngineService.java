@@ -36,12 +36,12 @@ public class GameEngineService {
     private static final Logger LOG = LoggerFactory.getLogger(GameEngineService.class);
 
     public Game triggerGame(String playerId, int betAmount) throws IOException {
-        String gameId = GameUtil.generateGameId();
-        Game game = new Game(gameId,playerId,betAmount);
+        Game game = new Game(GameUtil.generateGameId(),playerId,betAmount);
         game.setStatus(GameStatus.IN_PROGRESS);
-
         Grid grid = new Grid(gridUtil.generateGrid(gridSize,symbolProbabilityMap));
         game.setInitialGrid(grid.getGrid());
+        LOG.info("Starting a game with gameId {}, grid {} ",game.getGameId(),game.getInitialGrid());
+
         grid.printGridData();
 
         List<Cycle> gameCycles = new ArrayList<>();
@@ -53,6 +53,7 @@ public class GameEngineService {
             cycle.setGridWithClusters(grid.getGrid());
             cycle.setClusters(clusters);
             grid.printGridData();
+            LOG.info("Found clusters for gameId {}",clusters);
             for (Cluster cluster : clusters) System.out.println(cluster.toString());
 
 
@@ -74,11 +75,12 @@ public class GameEngineService {
         game.setGameCycles(gameCycles);
         game.setStatus(GameStatus.PENDING_GAMBLE);
         gameRepository.save(game);
+        LOG.info("game with  gameId {} completed",game.getGameId());
 
         return game;
     }
 
-    public Double triggerGamble(String gameId, String playerId) throws IOException, GambleOnCompletedGameException, NoDataFoundException {
+    public Double doubleOrNothing(String gameId, String playerId) throws IOException, GambleOnCompletedGameException, NoDataFoundException {
         double payout = 0.0;
 
         Game savedGameData = gameRepository.getById(gameId);
@@ -88,13 +90,16 @@ public class GameEngineService {
         if(savedGameData.getStatus().equals(GameStatus.COMPLETED)){
             throw new GambleOnCompletedGameException();
         }
-        LOG.info("Gambling on game id {} for amount {}",savedGameData.getGameId(),savedGameData.getPayout());
+
+        LOG.info("doubleOrNothing on game id {} for amount {}",savedGameData.getGameId(),savedGameData.getPayout());
         if(ThreadLocalRandom.current().nextBoolean()){
             payout =  savedGameData.getPayout()*2;
         }
         savedGameData.setStatus(GameStatus.COMPLETED);
         savedGameData.setPayout(payout);
         gameRepository.update(savedGameData);
+        LOG.info("doubleOrNothing on game id {} complete. payout {} {}",savedGameData.getGameId(),payout);
+
         return payout;
     }
 }
