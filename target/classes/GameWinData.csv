@@ -1,4 +1,5 @@
 GameId,PlayerId,Winning,Status
-18057a06-02f1-4a75-972e-3b40b5ed84cc,1,0.0,Bet_Pending
-e283c486-bb21-41fe-961e-adf4c2f5cd19,a23,1.0,Bet_Pending
-79b1fd98-472c-4a1d-901b-840fa1f5d975,3,0.0,Bet_Pending
+0f01f140-04ef-4dd9-a951-973a08843b77,player1,10.0,COMPLETED
+e2e3da72-c7d5-4c3b-99cf-71beb9737355,player1,1.0,COMPLETED
+13df4b1f-b8aa-43e0-8cb7-85ec6fcb6e44,player1,10.0,COMPLETED
+76bb4e50-a25f-4553-a093-177876b01df6,player1,13.0,PENDING_GAMBLE

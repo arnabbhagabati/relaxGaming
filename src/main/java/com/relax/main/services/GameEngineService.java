@@ -1,6 +1,8 @@
 package com.relax.main.services;
 
 import com.relax.main.beans.*;
+import com.relax.main.exceptions.GambleOnCompletedGameException;
+import com.relax.main.exceptions.NoDataFoundException;
 import com.relax.main.utils.GameUtil;
 import com.relax.main.utils.GridUtil;
 import org.slf4j.Logger;
@@ -15,8 +17,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
-import static com.relax.main.RelaxConstants.GAME_STATUS_BET_PENDING;
-
 @Service
 public class GameEngineService {
 
@@ -30,7 +30,7 @@ public class GameEngineService {
     GridUtil gridUtil;
 
     @Autowired
-    DatabaseService databaseService;
+    GameRepository gameRepository;
 
 
     private static final Logger LOG = LoggerFactory.getLogger(GameEngineService.class);
@@ -38,6 +38,7 @@ public class GameEngineService {
     public Game triggerGame(String playerId) throws IOException {
         String gameId = GameUtil.generateGameId();
         Game game = new Game(gameId,playerId);
+        game.setStatus(GameStatus.IN_PROGRESS);
 
         Grid grid = new Grid(gridUtil.generateGrid(gridSize,symbolProbabilityMap));
         game.setInitialGrid(grid.getGrid());
@@ -71,18 +72,29 @@ public class GameEngineService {
         }
 
         game.setGameCycles(gameCycles);
-
-        databaseService.saveGame(gameId,playerId,game.getPayout(),GAME_STATUS_BET_PENDING);
+        game.setStatus(GameStatus.PENDING_GAMBLE);
+        gameRepository.save(game);
 
         return game;
     }
 
-    public Double triggerGamble(String gameId, String playerId) {
-        SavedGameData savedGameData = databaseService.readFromCsv(gameId);
-        if(ThreadLocalRandom.current().nextBoolean()){
-            return Double.parseDouble(savedGameData.getWinAmount())*2;
-        }else{
-            return 0.0;
+    public Double triggerGamble(String gameId, String playerId) throws IOException, GambleOnCompletedGameException, NoDataFoundException {
+        double payout = 0.0;
+
+        Game savedGameData = gameRepository.getById(gameId);
+        if(savedGameData==null){
+            throw new NoDataFoundException();
         }
+        if(savedGameData.getStatus().equals(GameStatus.COMPLETED)){
+            throw new GambleOnCompletedGameException();
+        }
+        LOG.info("Gambling on game id {} for amount {}",savedGameData.getGameId(),savedGameData.getPayout());
+        if(ThreadLocalRandom.current().nextBoolean()){
+            payout =  savedGameData.getPayout()*2;
+        }
+        savedGameData.setStatus(GameStatus.COMPLETED);
+        savedGameData.setPayout(payout);
+        gameRepository.update(savedGameData);
+        return payout;
     }
 }

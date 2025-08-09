@@ -11,10 +11,18 @@ public class Game {
     private List<List<String>> initialGrid;
     private List<Cycle> gameCycles;
     private double payout;
+    private GameStatus status;
 
     public Game(String gameId, String playerId) {
         this.gameId = gameId;
         this.playerId = playerId;
+    }
+
+    public Game(String gameId, String playerId, String winAmount, GameStatus status) {
+        this.gameId=gameId;
+        this.playerId = playerId;
+        this.payout=Double.parseDouble(winAmount);
+        this.status = status;
     }
 
     public String getGameId() {
@@ -61,5 +69,13 @@ public class Game {
 
     public void setPayout(double payout) {
         this.payout = payout;
+    }
+
+    public GameStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(GameStatus status) {
+        this.status = status;
     }
 }
