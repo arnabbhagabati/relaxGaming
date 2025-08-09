@@ -1,6 +1,8 @@
 package com.relax.main.utils;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.HashMap;
 import java.util.List;
@@ -9,17 +11,19 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@SpringBootTest
 class GridUtilTest {
+
+    @Value("#{${symbolProbabilityMap_Type1}}")
+    private Map<String,Integer> symbolProbabilityMap;
+
+    @Value("${gridSize_Type1}")
+    private Integer gridSize;
 
 
     @Test
     void testGridGeneratedInCOrrectSize() {
         int gridSize = 5;
-        Map<String, Integer> symbolProbabilityMap = new HashMap<>();
-        symbolProbabilityMap.put("H1", 2);
-        symbolProbabilityMap.put("H2", 3);
-        symbolProbabilityMap.put("L1", 1);
-
         GridUtil gridUtil = new GridUtil();
 
         List<List<String>> grid = gridUtil.generateGrid(gridSize, symbolProbabilityMap);
@@ -32,11 +36,6 @@ class GridUtilTest {
 
     @Test
     void testGridGeneratedHasNonEMptyCells() {
-        int gridSize = 5;
-        Map<String, Integer> symbolProbabilityMap = new HashMap<>();
-        symbolProbabilityMap.put("H1", 2);
-        symbolProbabilityMap.put("H2", 3);
-        symbolProbabilityMap.put("L1", 1);
 
         GridUtil gridUtil = new GridUtil();
         List<List<String>> grid = gridUtil.generateGrid(gridSize, symbolProbabilityMap);
