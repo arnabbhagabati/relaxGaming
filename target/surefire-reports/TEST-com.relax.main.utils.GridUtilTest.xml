@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="com.relax.main.ApplicationTests" time="3.785" tests="1" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="com.relax.main.utils.GridUtilTest" time="0.076" tests="2" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="23"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -65,28 +65,18 @@
     <property name="java.class.version" value="67.0"/>
     <property name="LOGGED_APPLICATION_NAME" value="[spring-boot] "/>
   </properties>
-  <testcase name="contextLoads" classname="com.relax.main.ApplicationTests" time="0.928">
-    <system-out><![CDATA[02:12:15.560 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.relax.main.ApplicationTests]: ApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-02:12:15.744 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.relax.main.Application for test class com.relax.main.ApplicationTests
-
-  .   ____          _            __ _ _
- /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
-( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
- \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
-  '  |____| .__|_| |_|_| |_\__, | / / / /
- =========|_|==============|___/=/_/_/_/
-
- :: Spring Boot ::                (v3.4.3)
-
-2025-08-10T02:12:16.398+05:30  INFO 22988 --- [spring-boot] [           main] com.relax.main.ApplicationTests          : Starting ApplicationTests using Java 23.0.1 with PID 22988 (started by arnab in C:\Users\arnab\Desktop\Arnab\Projects\Applications\Relax\relaxGaming)
-2025-08-10T02:12:16.400+05:30  INFO 22988 --- [spring-boot] [           main] com.relax.main.ApplicationTests          : No active profile set, falling back to 1 default profile: "default"
-2025-08-10T02:12:18.151+05:30  INFO 22988 --- [spring-boot] [           main] com.relax.main.ApplicationTests          : Started ApplicationTests in 2.189 seconds (process running for 3.562)
+  <testcase name="testGridGeneratedHasNonEMptyCells" classname="com.relax.main.utils.GridUtilTest" time="0.016">
+    <system-out><![CDATA[2025-08-10T02:12:19.121+05:30  INFO 22988 --- [spring-boot] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.relax.main.utils.GridUtilTest]: GridUtilTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2025-08-10T02:12:19.151+05:30  INFO 22988 --- [spring-boot] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.relax.main.Application for test class com.relax.main.utils.GridUtilTest
+2025-08-10T02:12:19.166+05:30  INFO 22988 --- [spring-boot] [           main] com.relax.main.utils.GridUtil            : generating grisd start
+2025-08-10T02:12:19.166+05:30  INFO 22988 --- [spring-boot] [           main] com.relax.main.utils.GridUtil            : probNumMap contents: {1=H1, 2=H2, 3=H3, 4=H3, 5=H3, 6=H3, 7=H4, 8=L5, 9=L6, 10=L6, 11=L6, 12=L6, 13=L6, 14=L6, 15=L6, 16=L6, 17=L7, 18=L8, 19=WR, 20=BL}
+2025-08-10T02:12:19.170+05:30  INFO 22988 --- [spring-boot] [           main] com.relax.main.utils.GridUtil            : generating grid end
 ]]></system-out>
-    <system-err><![CDATA[Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build what is described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org/mockito/Mockito.html#0.3
-WARNING: A Java agent has been loaded dynamically (C:\Users\arnab\.m2\repository\net\bytebuddy\byte-buddy-agent\1.15.11\byte-buddy-agent-1.15.11.jar)
-WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
-WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
-WARNING: Dynamic loading of agents will be disallowed by default in a future release
-]]></system-err>
+  </testcase>
+  <testcase name="testGridGeneratedInCOrrectSize" classname="com.relax.main.utils.GridUtilTest" time="0.008">
+    <system-out><![CDATA[2025-08-10T02:12:19.187+05:30  INFO 22988 --- [spring-boot] [           main] com.relax.main.utils.GridUtil            : generating grisd start
+2025-08-10T02:12:19.187+05:30  INFO 22988 --- [spring-boot] [           main] com.relax.main.utils.GridUtil            : probNumMap contents: {1=H1, 2=H2, 3=H3, 4=H3, 5=H3, 6=H3, 7=H4, 8=L5, 9=L6, 10=L6, 11=L6, 12=L6, 13=L6, 14=L6, 15=L6, 16=L6, 17=L7, 18=L8, 19=WR, 20=BL}
+2025-08-10T02:12:19.187+05:30  INFO 22988 --- [spring-boot] [           main] com.relax.main.utils.GridUtil            : generating grid end
+]]></system-out>
   </testcase>
 </testsuite>
