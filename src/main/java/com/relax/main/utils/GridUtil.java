@@ -43,17 +43,6 @@ public class GridUtil {
             grid.add(row);
         }
 
-        List<List<String>> table = new ArrayList<>();
-
-        table.add(Arrays.asList("H3", "H2", "H1", "H2", "H4", "H4", "L6", "L5"));
-        table.add(Arrays.asList("H2", "L7", "L8", "H3", "L7", "H1", "H1", "H2"));
-        table.add(Arrays.asList("H2", "H2", "H2", "H4", "L8", "H2", "H4", "H2"));
-        table.add(Arrays.asList("BL", "H4", "L5", "WR", "L5", "L5", "L6", "H2"));
-        table.add(Arrays.asList("WR", "L5", "H2", "L8", "L5", "H2", "L5", "H2"));
-        table.add(Arrays.asList("H2", "H2", "H2", "BL", "L5", "L5", "BL", "L5"));
-        table.add(Arrays.asList("L5", "L6", "H2", "H2", "L5", "L5", "L5", "L7"));
-        table.add(Arrays.asList("H2", "L5", "L5", "L8", "H2", "WR", "H2", "H2"));
-
         LOG.info("generating grid end");
         return grid;
     }
