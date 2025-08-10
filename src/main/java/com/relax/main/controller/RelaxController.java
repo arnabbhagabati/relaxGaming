@@ -10,6 +10,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 
 @RestController
 @RequestMapping("/relax")
@@ -21,9 +23,9 @@ public class RelaxController {
     @Autowired
     AuthService authService;
 
-    //ToDo : Test parallel calls
+
     @RequestMapping(value = "/spinGame", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity playGame(@RequestParam("betAmount") int betAmount){
+    public ResponseEntity playGame(@RequestParam("betAmount") int betAmount) {
         Game game = null;
         String userId = authService.authorizedPlayer();
         try {
