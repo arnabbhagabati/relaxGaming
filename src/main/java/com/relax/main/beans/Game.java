@@ -2,6 +2,7 @@ package com.relax.main.beans;
 
 import com.relax.main.utils.GameUtil;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,7 +14,7 @@ public class Game {
     private String playerId;
     private List<List<String>> initialGrid;
     private List<Cycle> gameCycles;
-    private double payout;
+    private BigDecimal payout;
     private GameStatus status;
 
     public Game(String gameId, String playerId, int betAmount) {
@@ -25,7 +26,7 @@ public class Game {
     public Game(String gameId, String playerId, String winAmount, GameStatus status) {
         this.gameId=gameId;
         this.playerId = playerId;
-        this.payout=Double.parseDouble(winAmount);
+        this.payout=new BigDecimal(winAmount);
         this.status = status;
     }
 
@@ -66,16 +67,16 @@ public class Game {
 
     public void setGameCycles(List<Cycle> gameCycles) {
         this.gameCycles = gameCycles;
-        double payoutonTen = 0.00;
-        for(Cycle cycle :gameCycles) payoutonTen = payoutonTen+cycle.getPayout();
+        BigDecimal payoutonTen = BigDecimal.valueOf(0.00);
+        for(Cycle cycle :gameCycles) payoutonTen = payoutonTen.add(cycle.getPayout());
         this.payout = GameUtil.calculateAcrualPayout(betAmount,payoutonTen);
     }
 
-    public double getPayout() {
+    public BigDecimal getPayout() {
         return payout;
     }
 
-    public void setPayout(double payout) {
+    public void setPayout(BigDecimal payout) {
         this.payout = payout;
     }
 

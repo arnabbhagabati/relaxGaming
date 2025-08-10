@@ -1,0 +1,31 @@
+It is a general convention to have class names start with Init-caps (public class Account)
+The variable accountNumber should be private, and a setter for the variable should be added ( public void setAccountNumber(String accountNumber))
+
+
+getTransactions()
+    should ideally return List<Transaction> instead of ArrayList
+    ArrayList transactionList = new ArrayList(); should be List<Transaction> transactionList = new ArrayList<>();
+    List dbTransactionList = Db.getTransactions(accountNumber.trim());  
+            here, List type should be speicfied to the return type of Db.getTransactions(), or can make it List<Object>
+            
+    The for loop can be simplified to shorthand-for syntax - for(DbTransRow dbTransRow : dbTransactionList) 
+    trans.setTimestamp(createTimestampAndExpiryDate(trans)[0]);
+              This can be simplified to trans.setTimestamp(LocalDateTime.now().toString());
+              Similar can be done for trans.setExpiryDate()
+	      createTimestampAndExpirydate can then be possibly removed	
+
+     We should Log the Exception properly on encountering an exception
+     We can define custom Exception and throw it instead of throw new Exception()
+
+makeTransactionFromDbRow()
+   If possible currencies should be represented by BigDecimal
+   Even if represented by double, double is getting converted to float, which will loose precision
+   The conversion factor 1.10 is hard coded, ideally it should come from some conversion service or API call
+   Commented lines can be removed, even fixDescription() method can be removed if not used anywhere
+   can be made private if not used anywhere else
+
+equals()
+   @Override annotation is missing
+   This should take an Object as input type
+   
+   

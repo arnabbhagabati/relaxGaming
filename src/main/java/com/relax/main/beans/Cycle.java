@@ -1,5 +1,6 @@
 package com.relax.main.beans;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -11,7 +12,7 @@ public class Cycle {
     private List<List<String>> gridWPostAvalanche;
     private List<List<String>> refillGrid;
     private List<List<String>> gridPostRefill;
-    private double payout = 0.0;
+    private BigDecimal payout = BigDecimal.valueOf(0.0);
 
     public List<List<String>> getGridWithClusters() {
         return gridWithClusters;
@@ -28,7 +29,7 @@ public class Cycle {
     public void setClusters(List<Cluster> clusters) {
         this.clusters = clusters;
         for(Cluster cluster :clusters){
-            payout = payout+cluster.getPayout();
+            payout = payout.add(cluster.getPayout());
         }
     }
 
@@ -64,11 +65,11 @@ public class Cycle {
         return copiedGrid;
     }
 
-    public double getPayout() {
+    public BigDecimal getPayout() {
         return payout;
     }
 
-    public void setPayout(double payout) {
+    public void setPayout(BigDecimal payout) {
         this.payout = payout;
     }
 }

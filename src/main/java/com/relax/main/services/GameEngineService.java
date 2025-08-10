@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -84,8 +85,8 @@ public class GameEngineService {
     }
 
     //Todo : Validate the given gameId is for the same playerId
-    public Double doubleOrNothing(String gameId, String playerId) throws IOException, GambleOnCompletedGameException, NoDataFoundException {
-        double payout = 0.0;
+    public BigDecimal doubleOrNothing(String gameId, String playerId) throws IOException, GambleOnCompletedGameException, NoDataFoundException {
+        BigDecimal payout = BigDecimal.valueOf(0);
 
         Game savedGameData = gameRepository.getById(gameId);
         if(savedGameData==null){
@@ -97,7 +98,7 @@ public class GameEngineService {
 
         LOG.info("doubleOrNothing on game id {} for amount {}",savedGameData.getGameId(),savedGameData.getPayout());
         if(ThreadLocalRandom.current().nextBoolean()){
-            payout =  savedGameData.getPayout()*2;
+            payout =  savedGameData.getPayout().multiply(BigDecimal.valueOf(2));
         }
         savedGameData.setStatus(GameStatus.COMPLETED);
         savedGameData.setPayout(payout);

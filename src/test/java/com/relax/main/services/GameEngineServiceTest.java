@@ -9,6 +9,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.math.BigDecimal;
+
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -26,15 +28,15 @@ class GameEngineServiceTest {
     void setUp() {
         mockGame = new Game("2f5a9c85-fccc-4a0b-b056-ad6711c80209","player1",50);
         mockGame.setStatus(GameStatus.IN_PROGRESS);
-        mockGame.setPayout(200.0);
+        mockGame.setPayout(BigDecimal.valueOf(200.0));
     }
 
     @Test
     void testDoubleOrNothing() {
         when(gameRepository.getById("2f5a9c85-fccc-4a0b-b056-ad6711c80209")).thenReturn(mockGame);
         try {
-            double payout = gameService.doubleOrNothing("2f5a9c85-fccc-4a0b-b056-ad6711c80209","player1");
-            assert(payout==400 || payout==0);
+            BigDecimal payout = gameService.doubleOrNothing("2f5a9c85-fccc-4a0b-b056-ad6711c80209","player1");
+            assert(payout.compareTo(BigDecimal.valueOf(400)) == 0 || payout.compareTo(BigDecimal.valueOf(0)) == 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
