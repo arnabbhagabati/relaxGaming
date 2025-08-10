@@ -1,5 +1,6 @@
 package com.relax.main.utils;
 
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -273,7 +274,7 @@ public class GridUtil {
                     break;
                 }
             }
-            cluster.setPayout(payOut);
+            cluster.setPayout(BigDecimal.valueOf(payOut));
         }
     }
 

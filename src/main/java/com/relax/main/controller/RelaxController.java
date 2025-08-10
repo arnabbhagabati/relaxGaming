@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.concurrent.ThreadLocalRandom;
 
 
@@ -38,7 +39,7 @@ public class RelaxController {
 
     @RequestMapping(value = "/gambleChoice/{gameId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity doubleOrNothing(@PathVariable String gameId){
-        Double payout = 0.0;
+        BigDecimal payout = BigDecimal.valueOf(0.0);
         String userId = authService.authorizedPlayer();
         try {
             payout = gameEngineService.doubleOrNothing(gameId,userId);
@@ -47,6 +48,6 @@ public class RelaxController {
         } catch (Exception e) {
             return new ResponseEntity("Your game encountered an error. Please contact support or try a new spin",HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<Double>(payout, HttpStatus.OK);
+        return new ResponseEntity<BigDecimal>(payout, HttpStatus.OK);
     }
 }

@@ -14,12 +14,11 @@ public class GameUtil {
         return UUID.randomUUID().toString();
     }
 
-    public static double calculateAcrualPayout(int betAmount,double payoutOn10){
-        double betTenMultiple = (double) betAmount/10.00;
-        double payout = betTenMultiple*payoutOn10;
-        double roundedPayout = new BigDecimal(payout)
-                .setScale(2, RoundingMode.HALF_UP)
-                .doubleValue();
+    public static BigDecimal calculateAcrualPayout(int betAmount, BigDecimal payoutOn10){
+        BigDecimal betTenMultiple = BigDecimal.valueOf(betAmount/10);
+        BigDecimal payout = betTenMultiple.multiply(payoutOn10);
+        BigDecimal roundedPayout = payout
+                .setScale(2, RoundingMode.HALF_UP);
 
         return roundedPayout;
     }

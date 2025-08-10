@@ -1,5 +1,6 @@
 package com.relax.main.beans;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.Set;
 
@@ -8,7 +9,7 @@ public class Cluster {
     private Set<GridCell> cells;
     private int id;
     private String symbol;
-    private double payout;
+    private BigDecimal payout;
 
     public Cluster(Set<GridCell> cells, int id, String symbol) {
         this.cells = cells;
@@ -32,11 +33,11 @@ public class Cluster {
         this.id = id;
     }
 
-    public double getPayout() {
+    public BigDecimal getPayout() {
         return payout;
     }
 
-    public void setPayout(double payout) {
+    public void setPayout(BigDecimal payout) {
         this.payout = payout;
     }
 
