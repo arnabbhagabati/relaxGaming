@@ -49,7 +49,10 @@ public class GameEngineService {
             Cycle cycle = new Cycle();
 
             List<Cluster> clusters = gridUtil.findClusters(grid.getGrid());
-            if(clusters.isEmpty()) break;
+            if(clusters.isEmpty()) {
+                LOG.info("No more clusters found");
+                break;
+            }
             cycle.setGridWithClusters(grid.getGrid());
             cycle.setClusters(clusters);
             grid.printGridData();
