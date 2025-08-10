@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="com.relax.main.utils.GridUtilTest" time="0.159" tests="2" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="com.relax.main.services.GameEngineServiceTest" time="0.522" tests="1" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="23"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -65,18 +65,9 @@
     <property name="java.class.version" value="67.0"/>
     <property name="LOGGED_APPLICATION_NAME" value="[spring-boot] "/>
   </properties>
-  <testcase name="testGridGeneratedHasNonEMptyCells" classname="com.relax.main.utils.GridUtilTest" time="0.025">
-    <system-out><![CDATA[2025-08-10T18:41:37.355+05:30  INFO 21132 --- [spring-boot] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.relax.main.utils.GridUtilTest]: GridUtilTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-2025-08-10T18:41:37.421+05:30  INFO 21132 --- [spring-boot] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.relax.main.Application for test class com.relax.main.utils.GridUtilTest
-2025-08-10T18:41:37.453+05:30  INFO 21132 --- [spring-boot] [           main] com.relax.main.utils.GridUtil            : generating grisd start
-2025-08-10T18:41:37.453+05:30  INFO 21132 --- [spring-boot] [           main] com.relax.main.utils.GridUtil            : probNumMap contents: {1=H1, 2=H2, 3=H3, 4=H3, 5=H3, 6=H3, 7=H4, 8=L5, 9=L6, 10=L6, 11=L6, 12=L6, 13=L6, 14=L6, 15=L6, 16=L6, 17=L7, 18=L8, 19=WR, 20=BL}
-2025-08-10T18:41:37.454+05:30  INFO 21132 --- [spring-boot] [           main] com.relax.main.utils.GridUtil            : generating grid end
-]]></system-out>
-  </testcase>
-  <testcase name="testGridGeneratedInCOrrectSize" classname="com.relax.main.utils.GridUtilTest" time="0.026">
-    <system-out><![CDATA[2025-08-10T18:41:37.482+05:30  INFO 21132 --- [spring-boot] [           main] com.relax.main.utils.GridUtil            : generating grisd start
-2025-08-10T18:41:37.483+05:30  INFO 21132 --- [spring-boot] [           main] com.relax.main.utils.GridUtil            : probNumMap contents: {1=H1, 2=H2, 3=H3, 4=H3, 5=H3, 6=H3, 7=H4, 8=L5, 9=L6, 10=L6, 11=L6, 12=L6, 13=L6, 14=L6, 15=L6, 16=L6, 17=L7, 18=L8, 19=WR, 20=BL}
-2025-08-10T18:41:37.484+05:30  INFO 21132 --- [spring-boot] [           main] com.relax.main.utils.GridUtil            : generating grid end
+  <testcase name="testDoubleOrNothing" classname="com.relax.main.services.GameEngineServiceTest" time="0.519">
+    <system-out><![CDATA[2025-08-10T18:41:37.301+05:30  INFO 21132 --- [spring-boot] [           main] c.relax.main.services.GameEngineService  : doubleOrNothing on game id 2f5a9c85-fccc-4a0b-b056-ad6711c80209 for amount 200.0
+2025-08-10T18:41:37.306+05:30  INFO 21132 --- [spring-boot] [           main] c.relax.main.services.GameEngineService  : doubleOrNothing on game id 2f5a9c85-fccc-4a0b-b056-ad6711c80209 complete. payout 0.0
 ]]></system-out>
   </testcase>
 </testsuite>

@@ -80,6 +80,7 @@ public class GameEngineService {
         return game;
     }
 
+    //Todo : Validate the given gameId is for the same playerId
     public Double doubleOrNothing(String gameId, String playerId) throws IOException, GambleOnCompletedGameException, NoDataFoundException {
         double payout = 0.0;
 
@@ -98,7 +99,7 @@ public class GameEngineService {
         savedGameData.setStatus(GameStatus.COMPLETED);
         savedGameData.setPayout(payout);
         gameRepository.update(savedGameData);
-        LOG.info("doubleOrNothing on game id {} complete. payout {} {}",savedGameData.getGameId(),payout);
+        LOG.info("doubleOrNothing on game id {} complete. payout {}",savedGameData.getGameId(),payout);
 
         return payout;
     }
